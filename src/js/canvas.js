@@ -155,6 +155,36 @@ function init() {
             image: createImage(platformSmallTall)
         }),
         new Platform({
+            x: platformImage.width * 7 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 270,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
+            x: platformImage.width * 8 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 270,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
+            x: platformImage.width * 12 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 270,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
+            x: platformImage.width * 13 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 270,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
+            x: platformImage.width * 14 + 400 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 350,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
+            x: platformImage.width * 15 + 500 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 270,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
             x: -1,
             y: 470,
             image: platformImage
@@ -181,6 +211,46 @@ function init() {
         }),
         new Platform({
             x: platformImage.width * 5 + 700 -2,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 7 + 300 -2,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 9 + 700 -2,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 11 + 500 -2,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 17 + 400 -2,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 18 + 400 -2,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 18 + 400 -3,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 19 + 400 -3,
+            y: 470,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 20 + 400 -3,
             y: 470,
             image: platformImage
         }),
