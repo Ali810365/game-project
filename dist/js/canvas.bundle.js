@@ -364,7 +364,8 @@ var scrollOffset = 0;
 function init() {
   platformImage = createImage(_img_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
   player = new Player();
-  platforms = [new Platform({
+  platforms = [//Tall small platforms
+  new Platform({
     x: platformImage.width * 4 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
     y: 270,
     image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_3__["default"])
@@ -392,7 +393,8 @@ function init() {
     x: platformImage.width * 15 + 500 - 2 + platformImage.width - platformSmallTallImage.width,
     y: 270,
     image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_3__["default"])
-  }), new Platform({
+  }), //longer/slim platform
+  new Platform({
     x: -1,
     y: 470,
     image: platformImage
@@ -448,7 +450,12 @@ function init() {
     x: platformImage.width * 20 + 400 - 3,
     y: 470,
     image: platformImage
-  })];
+  })]; //bookmark
+
+  var firstSmallPlatform = platforms[0]; //document!!!!!!
+  //console.log(firstSmallPlatform.position.x)
+  //this occurs when init is called
+
   genericObjects = [new GenericObject({
     x: -1,
     y: -1,
@@ -458,7 +465,7 @@ function init() {
     y: -1,
     image: createImage(_img_hills_png__WEBPACK_IMPORTED_MODULE_1__["default"])
   })];
-  scrollOffset = 0;
+  scrollOffset = 0; //console.log(platforms[0].position)
 }
 
 function animate() {
@@ -524,17 +531,23 @@ function animate() {
     player.currentCropWidth = player.sprites.stand.cropWidth;
     player.width = player.sprites.stand.width;
   } // win condition
-
-
-  if (scrollOffset > platformImage.width * 5 + 300 - 2) {
-    console.log('You Win');
-  } //lose condition
+  // if (scrollOffset == platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
+  //     console.log('It works....I hope');
+  // }
+  //lose condition
 
 
   if (player.position.y > canvas.height) {
     init();
   }
 }
+
+if (scrollOffset > platformImage.width * 5 + 300 - 2) {
+  console.log('You Win');
+} // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
+//     prompt('hi')
+// }
+
 
 init();
 animate();

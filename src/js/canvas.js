@@ -149,7 +149,9 @@ function init() {
 
     player = new Player()
     platforms = [
+        //Tall small platforms
         new Platform({
+            
             x: platformImage.width * 4 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
             y: 270,
             image: createImage(platformSmallTall)
@@ -184,6 +186,10 @@ function init() {
             y: 270,
             image: createImage(platformSmallTall)
         }),
+
+
+
+        //longer/slim platform
         new Platform({
             x: -1,
             y: 470,
@@ -258,6 +264,15 @@ function init() {
 
     ]
 
+    //bookmark
+    let firstSmallPlatform = platforms[0];
+
+    //document!!!!!!
+    //console.log(firstSmallPlatform.position.x)
+    //this occurs when init is called
+    
+   
+
     genericObjects = [
         new GenericObject({
             x: -1,
@@ -274,9 +289,11 @@ function init() {
     ]
 
     scrollOffset = 0
-
-
+    //console.log(platforms[0].position)
+    
 }
+
+
 
 function animate() {
     requestAnimationFrame(animate)
@@ -330,6 +347,8 @@ function animate() {
         }
     })
 
+    
+
     //sprite switching
     if(keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right){
         player.frames = 1
@@ -350,15 +369,41 @@ function animate() {
         player.width = player.sprites.stand.width
     }
     // win condition
-    if (scrollOffset > platformImage.width * 5 + 300 -2) {
-        console.log('You Win');
-    }
+    
+
+    // if (scrollOffset == platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
+    //     console.log('It works....I hope');
+    // }
+    
+
+    
+    
+        
+
+    
+    
+
 
     //lose condition
     if (player.position.y > canvas.height) {
         init()
+        
     }
 }
+
+if (scrollOffset > platformImage.width * 5 + 300 -2) {
+    console.log('You Win');
+}
+
+
+    // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
+        
+    //     prompt('hi')
+    
+    // }
+
+
+
 
 init()
 animate()
