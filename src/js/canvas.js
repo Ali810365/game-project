@@ -127,6 +127,7 @@ let platformSmallTallImage = createImage(platformSmallTall)
 
 let player = new Player()
 let platforms = []
+let sexyPlatforms =[]
 let genericObjects = []
 let lastKey
 
@@ -263,6 +264,7 @@ function init() {
         
 
     ]
+    
 
     //bookmark
     let firstSmallPlatform = platforms[0];
@@ -287,11 +289,49 @@ function init() {
 
 
     ]
-
+    
     scrollOffset = 0
     //console.log(platforms[0].position)
     
 }
+
+function mathPopUps(){
+    
+    platformImage = createImage(platform)
+    
+
+    sexyPlatforms = [
+        new Platform({
+            x: platformImage.width,
+            y: 250,
+            image: createImage(platformSmallTall)
+        })
+    ]
+    
+    console.log(sexyPlatforms[0])
+        let distance = platformImage.width;
+        function animate() {
+            requestAnimationFrame(animate)
+            if (scrollOffset == platformImage.width - 200) {
+                prompt('hello')
+            
+            }   
+        }
+        
+        animate()
+        
+    
+    
+   
+        
+
+    
+    
+        scrollOffset = 0
+    
+}
+
+
 
 
 
@@ -304,10 +344,14 @@ function animate() {
     genericObjects.forEach((genericObjects) => {
         genericObjects.draw()
     })
-
+    sexyPlatforms.forEach((newPlatform) =>{
+        newPlatform.draw()
+    })
     platforms.forEach((platform) => {
         platform.draw()
     })
+
+    
     player.update()
 
     if (keys.right.pressed && player.position.x < 400) {
@@ -322,12 +366,18 @@ function animate() {
             platforms.forEach((platform) => {
                 platform.position.x -= player.speed
             })
+            sexyPlatforms.forEach((platform) => {
+                platform.position.x -= player.speed
+            })
             genericObjects.forEach(genericObject => {
                 genericObject.position.x -= player.speed *.66
             })
         } else if (keys.left.pressed && scrollOffset > 0) {
             scrollOffset -= player.speed
             platforms.forEach((platform) => {
+                platform.position.x += player.speed
+            })
+            sexyPlatforms.forEach((platform) => {
                 platform.position.x += player.speed
             })
 
@@ -341,6 +391,13 @@ function animate() {
 
     // paltform collision detection
     platforms.forEach((platform) => {
+        if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y
+            && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
+            player.velocity.y = 0
+        }
+    })
+
+    sexyPlatforms.forEach((platform) => {
         if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y
             && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
             player.velocity.y = 0
@@ -369,7 +426,14 @@ function animate() {
         player.width = player.sprites.stand.width
     }
     // win condition
-    
+    if (scrollOffset > platformImage.width * 5 + 300 -2) {
+        console.log('You Win');
+    }
+    // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
+        
+    //     prompt('hi')
+   
+    // }
 
     // if (scrollOffset == platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
     //     console.log('It works....I hope');
@@ -382,31 +446,28 @@ function animate() {
 
     
     
-
+   
 
     //lose condition
     if (player.position.y > canvas.height) {
         init()
+        mathPopUps()
+        
+        
         
     }
 }
 
-if (scrollOffset > platformImage.width * 5 + 300 -2) {
-    console.log('You Win');
-}
 
-
-    // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
-        
-    //     prompt('hi')
     
-    // }
 
 
 
 
 init()
+
 animate()
+
 
 addEventListener('keydown', ({ keyCode }) => {
     switch (keyCode) {

@@ -349,6 +349,7 @@ var platformImage = createImage(_img_platform_png__WEBPACK_IMPORTED_MODULE_0__["
 var platformSmallTallImage = createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_3__["default"]);
 var player = new Player();
 var platforms = [];
+var sexyPlatforms = [];
 var genericObjects = [];
 var lastKey;
 var keys = {
@@ -468,12 +469,37 @@ function init() {
   scrollOffset = 0; //console.log(platforms[0].position)
 }
 
+function mathPopUps() {
+  platformImage = createImage(_img_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
+  sexyPlatforms = [new Platform({
+    x: platformImage.width,
+    y: 250,
+    image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_3__["default"])
+  })];
+  console.log(sexyPlatforms[0]);
+  var distance = platformImage.width;
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (scrollOffset == platformImage.width - 200) {
+      prompt('hello');
+    }
+  }
+
+  animate();
+  scrollOffset = 0;
+}
+
 function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = 'White';
   c.fillRect(0, 0, canvas.width, canvas.height);
   genericObjects.forEach(function (genericObjects) {
     genericObjects.draw();
+  });
+  sexyPlatforms.forEach(function (newPlatform) {
+    newPlatform.draw();
   });
   platforms.forEach(function (platform) {
     platform.draw();
@@ -492,12 +518,18 @@ function animate() {
       platforms.forEach(function (platform) {
         platform.position.x -= player.speed;
       });
+      sexyPlatforms.forEach(function (platform) {
+        platform.position.x -= player.speed;
+      });
       genericObjects.forEach(function (genericObject) {
         genericObject.position.x -= player.speed * .66;
       });
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed;
       platforms.forEach(function (platform) {
+        platform.position.x += player.speed;
+      });
+      sexyPlatforms.forEach(function (platform) {
         platform.position.x += player.speed;
       });
       genericObjects.forEach(function (genericObject) {
@@ -508,6 +540,11 @@ function animate() {
 
 
   platforms.forEach(function (platform) {
+    if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
+      player.velocity.y = 0;
+    }
+  });
+  sexyPlatforms.forEach(function (platform) {
     if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
       player.velocity.y = 0;
     }
@@ -531,6 +568,13 @@ function animate() {
     player.currentCropWidth = player.sprites.stand.cropWidth;
     player.width = player.sprites.stand.width;
   } // win condition
+
+
+  if (scrollOffset > platformImage.width * 5 + 300 - 2) {
+    console.log('You Win');
+  } // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
+  //     prompt('hi')
+  // }
   // if (scrollOffset == platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
   //     console.log('It works....I hope');
   // }
@@ -539,15 +583,9 @@ function animate() {
 
   if (player.position.y > canvas.height) {
     init();
+    mathPopUps();
   }
 }
-
-if (scrollOffset > platformImage.width * 5 + 300 - 2) {
-  console.log('You Win');
-} // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
-//     prompt('hi')
-// }
-
 
 init();
 animate();
