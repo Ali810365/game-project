@@ -1,20 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Canvas Boilerplate | Chris Courses</title>
-    <style>
-      body {
-        margin: 0;
-        background-color: black;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <body>
-    <canvas></canvas>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Canvas Boilerplate | Chris Courses</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: rgb(0, 0, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .test {
+      width: 1024px;
+      height: 100px;
+      border: 1px solid black;
+      background-color: rgb(250, 250, 250);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .math-wrapper{
+      width: 50%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .input-wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .input {
+      color: white;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      margin: 20px;
+      height: 30px;
+      background-color: blue;
+    }
+    .result {
+      color: white;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      margin: 5px;
+      height: 30px;
+      background-color: rgb(110, 190, 114);
+    }
+
+    .operator{
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      font-size: 45px;
+      font-weight: bolder;
+     
+    }
+    .result-wrapper{
+      display: flex;
+      flex-direction: column;
+      margin-left: 20px;
+    }
+
+    .resultBtn{
+      width: 100%;
+      height: inherit;
+      cursor: pointer;
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <canvas></canvas>
+
+  <div class="test">
+    <div class="math-wrapper">
+      <div class="input-wrapper">
+        <div class="input" id="inputOne">
+          5
+        </div>
+        <div class="operator">
+          +
+        </div>
+        <div class="input" id="inputTwo">
+          10
+        </div>
+
+        <div class="operator">
+          =
+        </div>
+
+        <div class="result-wrapper">
+        <div class="result">
+            <button id="resultOne" class="resultBtn">15</button>
+        </div>
+        <div class="result" id="resultTwo">
+            <button id="resultOne" class="resultBtn">18</button>
+        </div>
+      </div>
+      </div>
+      
+    </div>
+  </div>
+</body>
+
 </html>

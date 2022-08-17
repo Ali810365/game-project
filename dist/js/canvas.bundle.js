@@ -469,28 +469,6 @@ function init() {
   scrollOffset = 0; //console.log(platforms[0].position)
 }
 
-function mathPopUps() {
-  platformImage = createImage(_img_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
-  sexyPlatforms = [new Platform({
-    x: platformImage.width,
-    y: 250,
-    image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_3__["default"])
-  })];
-  console.log(sexyPlatforms[0]);
-  var distance = platformImage.width;
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    if (scrollOffset == platformImage.width - 200) {
-      prompt('hello');
-    }
-  }
-
-  animate();
-  scrollOffset = 0;
-}
-
 function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = 'White';
@@ -583,7 +561,6 @@ function animate() {
 
   if (player.position.y > canvas.height) {
     init();
-    mathPopUps();
   }
 }
 
@@ -637,6 +614,17 @@ addEventListener('keyup', function (_ref4) {
       console.log('up');
       break;
   }
+}); //bookmark
+
+var resultButtons = document.querySelectorAll('.resultBtn');
+var inputOne = document.querySelector('#inputOne');
+var inputTwo = document.querySelector('#inputTwo');
+resultButtons.forEach(function (button) {
+  button.addEventListener('click', function () {
+    if (parseInt(inputOne.innerHTML) + parseInt(inputTwo.innerHTML) !== parseInt(button.innerHTML)) {
+      init();
+    }
+  });
 });
 
 /***/ })

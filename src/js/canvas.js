@@ -295,42 +295,6 @@ function init() {
     
 }
 
-function mathPopUps(){
-    
-    platformImage = createImage(platform)
-    
-
-    sexyPlatforms = [
-        new Platform({
-            x: platformImage.width,
-            y: 250,
-            image: createImage(platformSmallTall)
-        })
-    ]
-    
-    console.log(sexyPlatforms[0])
-        let distance = platformImage.width;
-        function animate() {
-            requestAnimationFrame(animate)
-            if (scrollOffset == platformImage.width - 200) {
-                prompt('hello')
-            
-            }   
-        }
-        
-        animate()
-        
-    
-    
-   
-        
-
-    
-    
-        scrollOffset = 0
-    
-}
-
 
 
 
@@ -451,7 +415,7 @@ function animate() {
     //lose condition
     if (player.position.y > canvas.height) {
         init()
-        mathPopUps()
+        
         
         
         
@@ -509,4 +473,17 @@ addEventListener('keyup', ({ keyCode }) => {
             console.log('up')
             break
     }
+})
+
+//bookmark
+let resultButtons = document.querySelectorAll('.resultBtn');
+let inputOne = document.querySelector('#inputOne');
+let inputTwo = document.querySelector('#inputTwo');
+
+resultButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if(parseInt(inputOne.innerHTML) + parseInt(inputTwo.innerHTML) !== parseInt(button.innerHTML)){
+            init()
+        }
+    })
 })
