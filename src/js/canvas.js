@@ -441,10 +441,10 @@ addEventListener('keyup', ({ keyCode }) => {
 
 //bookmark
 /*****TO DO LIST
- * need to shuffle order of answers / try shuffling the array that holds answer values
+ * need to shuffle order of answers / try shuffling the array that holds answer values - wrote code for it, just need to invoke it in the right spot - eduardo
  * need scoreboard, counter, timer
  * css and styling 
- * prompt the player to lose when wrong answer is chosen //reset
+ * prompt the player to lose when wrong answer is chosen //reset - working on reset code block - eduardo
  * need to include substraction, multiplication, division promotes
  *  */ 
 let questionNumbers = document.querySelectorAll('.input') // question numbers field (blue fields)
@@ -452,6 +452,21 @@ let resultButtons = document.querySelectorAll('.resultBtn'); // 4 empty buttons
 
 
 function mathFunction(){ //main function, temporary just sample
+
+    function shuffle(array){ // shuffles the array 
+        let currentIndex = answerArray.length, randomIndex;
+
+        while(currentIndex != 0) {
+            // pick a random element 
+
+            randomIndex = Math.floor(Math.random() + currentIndex);
+            currentIndex--;
+            // swap out current element with the random element
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array; // returns shuffled array 
+    }
+
     let promptArray = [] //empty array to hold generated math question value
     let answerArray = [] //empty array to hold data for response button 
 
@@ -465,15 +480,15 @@ function mathFunction(){ //main function, temporary just sample
     let correctNumber //holds value to answer of the math question 
 
     document.getElementById('testing').addEventListener('click', () => {
-        promptNumberOne = Math.ceil(Math.random() * 10) //random number generated for our math question
-        promptNumberTwo = Math.ceil(Math.random() * 10)
+        promptNumberOne = Math.ceil(Math.random() * 10) + 1 //random number generated for our math question
+        promptNumberTwo = Math.ceil(Math.random() * 10) + 1
         promptArray.splice(0, 2) //remove array data from our prevous math questions value
         promptArray.push(promptNumberOne, promptNumberTwo) //push new math questions
 
         correctNumber = promptArray[0] + promptArray[1] //getting values of correct number
-        randomNumberOne = Math.ceil(Math.random() * 10)
-        randomNumberTwo = Math.ceil(Math.random() * 10)
-        randomNumberThree = Math.ceil(Math.random() * 10)
+        randomNumberOne = Math.ceil(Math.random() * 10) + 1
+        randomNumberTwo = Math.ceil(Math.random() * 10) + 1
+        randomNumberThree = Math.ceil(Math.random() * 10) + 1
         answerArray.splice(0, 4) //remove array data from our previous set of answers
         answerArray.push(correctNumber, randomNumberOne, randomNumberTwo, randomNumberThree) //push new answer values
         
@@ -495,7 +510,8 @@ function mathFunction(){ //main function, temporary just sample
                 })
             } else{
                 button.addEventListener('click', () =>{
-                    button.style.backgroundColor = 'red'
+                    button.style.backgroundColor = 'red';
+                    alert("test");
                 })
             }
         })
@@ -505,6 +521,7 @@ function mathFunction(){ //main function, temporary just sample
         })
     })
 }
+
 
 
 /* SAMPLE CODE
