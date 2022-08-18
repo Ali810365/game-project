@@ -609,16 +609,95 @@ addEventListener('keyup', function (_ref4) {
   }
 }); //bookmark
 
-var resultButtons = document.querySelectorAll('.resultBtn');
-var inputOne = document.querySelector('#inputOne');
-var inputTwo = document.querySelector('#inputTwo');
-resultButtons.forEach(function (button) {
-  button.addEventListener('click', function () {
-    if (parseInt(inputOne.innerHTML) + parseInt(inputTwo.innerHTML) !== parseInt(button.innerHTML)) {
-      init();
+/*****TO DO LIST
+ * need to shuffle order of answers / try shuffling the array that holds answer values
+ * need scoreboard, counter, timer
+ * css and styling 
+ * prompt the player to lose when wrong answer is chosen //reset
+ * need to include substraction, multiplication, division promotes
+ *  */
+
+var questionNumbers = document.querySelectorAll('.input'); // question numbers field (blue fields)
+
+var resultButtons = document.querySelectorAll('.resultBtn'); // 4 empty buttons
+
+function mathFunction() {
+  //main function, temporary just sample
+  var promptArray = []; //empty array to hold generated math question value
+
+  var answerArray = []; //empty array to hold data for response button 
+
+  var promptNumberOne; //first value of our generated math question 
+
+  var promptNumberTwo;
+  var randomNumberOne; //3 generated incorrect numbers
+
+  var randomNumberTwo;
+  var randomNumberThree;
+  var correctNumber; //holds value to answer of the math question 
+
+  document.getElementById('testing').addEventListener('click', function () {
+    promptNumberOne = Math.ceil(Math.random() * 10); //random number generated for our math question
+
+    promptNumberTwo = Math.ceil(Math.random() * 10);
+    promptArray.splice(0, 2); //remove array data from our prevous math questions value
+
+    promptArray.push(promptNumberOne, promptNumberTwo); //push new math questions
+
+    correctNumber = promptArray[0] + promptArray[1]; //getting values of correct number
+
+    randomNumberOne = Math.ceil(Math.random() * 10);
+    randomNumberTwo = Math.ceil(Math.random() * 10);
+    randomNumberThree = Math.ceil(Math.random() * 10);
+    answerArray.splice(0, 4); //remove array data from our previous set of answers
+
+    answerArray.push(correctNumber, randomNumberOne, randomNumberTwo, randomNumberThree); //push new answer values
+
+    for (var i = 0; i < answerArray.length; i++) {
+      //display the questions in html document, pulling from questions array
+      resultButtons[i].innerHTML = answerArray[i];
     }
+
+    for (var _i = 0; _i < promptArray.length; _i++) {
+      //display the answers in html document, pulling from answers array
+      questionNumbers[_i].innerHTML = promptArray[_i];
+    }
+
+    resultButtons.forEach(function (button) {
+      //style the button when correct answer is chosen
+      if (parseInt(button.innerHTML) == promptNumberOne + promptNumberTwo) {
+        button.addEventListener('click', function () {
+          button.style.backgroundColor = 'green';
+        });
+      } else {
+        button.addEventListener('click', function () {
+          button.style.backgroundColor = 'red';
+        });
+      }
+    });
+    resultButtons.forEach(function (button) {
+      //my horrible attempt at trying to revert the buttons back to normal
+      button.style.backgroundColor = 'white';
+    });
   });
-});
+}
+/* SAMPLE CODE
+resultButtons.forEach((button) => {
+    console.log(button.value)
+})
+
+resultButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if(parseInt(inputOne.innerHTML) + parseInt(inputTwo.innerHTML) !== parseInt(button.innerHTML)){
+            init()
+        }
+    })
+})
+
+*/
+
+
+mathFunction();
 
 /***/ })
 
