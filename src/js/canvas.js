@@ -122,8 +122,20 @@ function createImage(imageSrc) {
     return image
 }
 
-let platformImage = createImage(platform)
-let platformSmallTallImage = createImage(platformSmallTall)
+function createImageAsync(imageSrc) {
+    return new Promise((resolve) =>{
+        const image = new Image()
+        image.onload = () => {
+            resolve(image)
+        }
+        image.src = imageSrc
+    })
+    
+}
+
+
+let platformImage 
+let platformSmallTallImage
 
 let player = new Player()
 let platforms = []
@@ -142,10 +154,11 @@ const keys = {
 
 let scrollOffset = 0
 
-function init() {
+async function init() {
 
 
-    platformImage = createImage(platform)
+    platformImage = await createImageAsync(platform)
+    platformSmallTallImage = await createImageAsync(platformSmallTall)
 
     player = new Player()
     platforms = [
@@ -157,12 +170,12 @@ function init() {
             image: createImage(platformSmallTall)
         }),
         new Platform({
-            x: platformImage.width * 7 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+            x: platformImage.width * 7 + 600 - 2 + platformImage.width - platformSmallTallImage.width,
             y: 270,
             image: createImage(platformSmallTall)
         }),
         new Platform({
-            x: platformImage.width * 8 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+            x: platformImage.width * 8 + 700 - 2 + platformImage.width - platformSmallTallImage.width,
             y: 270,
             image: createImage(platformSmallTall)
         }),
@@ -186,6 +199,22 @@ function init() {
             y: 270,
             image: createImage(platformSmallTall)
         }),
+        new Platform({
+            x: platformImage.width * 19 + 550 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 150,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
+            x: platformImage.width * 20 + 250 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 500,
+            image: createImage(platformSmallTall)
+        }),
+        new Platform({
+            x: platformImage.width * 20 + 150 - 2 + platformImage.width - platformSmallTallImage.width,
+            y: 376,
+            image: createImage(platformSmallTall)
+        }),
+        
 
 
 
@@ -201,65 +230,76 @@ function init() {
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 2 + 100,
+            x: platformImage.width * 2 + 300,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 3 + 300,
+            x: platformImage.width * 3 + 500,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 4 + 300 -2,
+            x: platformImage.width * 4 + 300 - 2,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 5 + 700 -2,
+            x: platformImage.width * 5 + 800 - 2,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 7 + 300 -2,
+            x: platformImage.width * 7 + 600 - 2,
+            y: 370,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 9 + 900 - 2,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 9 + 700 -2,
+            x: platformImage.width * 11 + 500 - 2,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 11 + 500 -2,
+            x: platformImage.width * 17 + 400 ,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 17 + 400 -2,
+            x: platformImage.width * 18 + 400 - 2,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 18 + 400 -2,
+            x: platformImage.width * 18 + 400 - 2,
+            y: 346,
+            image: platformImage
+        }),
+        new Platform({
+            x: platformImage.width * 18 + 400 - 2,
+            y: 224,
+            image: platformImage
+        }),
+
+        new Platform({
+            x: platformImage.width * 21 + 700 - 2,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 18 + 400 -3,
+            x: platformImage.width * 22 + 700 - 4,
             y: 470,
             image: platformImage
         }),
         new Platform({
-            x: platformImage.width * 19 + 400 -3,
+            x: platformImage.width * 23 + 700 - 6,
             y: 470,
             image: platformImage
-        }),
-        new Platform({
-            x: platformImage.width * 20 + 400 -3,
-            y: 470,
-            image: platformImage
-        }),
+        })
         
 
     ]
@@ -380,8 +420,8 @@ function animate() {
         player.width = player.sprites.stand.width
     }
     // win condition
-    if (scrollOffset > platformImage.width * 5 + 300 -2) {
-        console.log('You Win');
+    if (platformImage && scrollOffset > platformImage.width * 5 + 300 -2) {
+        
     }
 
     if (player.position.y > canvas.height) {
@@ -442,10 +482,10 @@ addEventListener('keyup', ({ keyCode }) => {
 
 //bookmark
 /*****TO DO LIST
- * need to shuffle order of answers / try shuffling the array that holds answer values - wrote code for it, just need to invoke it in the right spot - eduardo
+ * need to shuffle order of answers / try shuffling the array that holds answer values
  * need scoreboard, counter, timer
  * css and styling 
- * prompt the player to lose when wrong answer is chosen //reset - working on reset code block - eduardo
+ * prompt the player to lose when wrong answer is chosen //reset
  * need to include substraction, multiplication, division promotes
  *  */ 
 let questionNumbers = document.querySelectorAll('.input') // question numbers field (blue fields)
@@ -453,21 +493,6 @@ let resultButtons = document.querySelectorAll('.resultBtn'); // 4 empty buttons
 
 
 function mathFunction(){ //main function, temporary just sample
-
-    function shuffle(array){ // shuffles the array 
-        let currentIndex = answerArray.length, randomIndex;
-
-        while(currentIndex != 0) {
-            // pick a random element 
-
-            randomIndex = Math.floor(Math.random() + currentIndex);
-            currentIndex--;
-            // swap out current element with the random element
-            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-        }
-        return array; // returns shuffled array 
-    }
-
     let promptArray = [] //empty array to hold generated math question value
     let answerArray = [] //empty array to hold data for response button 
 
@@ -481,15 +506,15 @@ function mathFunction(){ //main function, temporary just sample
     let correctNumber //holds value to answer of the math question 
 
     document.getElementById('testing').addEventListener('click', () => {
-        promptNumberOne = Math.ceil(Math.random() * 10) + 1 //random number generated for our math question
-        promptNumberTwo = Math.ceil(Math.random() * 10) + 1
+        promptNumberOne = Math.ceil(Math.random() * 10) //random number generated for our math question
+        promptNumberTwo = Math.ceil(Math.random() * 10)
         promptArray.splice(0, 2) //remove array data from our prevous math questions value
         promptArray.push(promptNumberOne, promptNumberTwo) //push new math questions
 
         correctNumber = promptArray[0] + promptArray[1] //getting values of correct number
-        randomNumberOne = Math.ceil(Math.random() * 10) + 1
-        randomNumberTwo = Math.ceil(Math.random() * 10) + 1
-        randomNumberThree = Math.ceil(Math.random() * 10) + 1
+        randomNumberOne = Math.ceil(Math.random() * 10)
+        randomNumberTwo = Math.ceil(Math.random() * 10)
+        randomNumberThree = Math.ceil(Math.random() * 10)
         answerArray.splice(0, 4) //remove array data from our previous set of answers
         answerArray.push(correctNumber, randomNumberOne, randomNumberTwo, randomNumberThree) //push new answer values
         
@@ -511,13 +536,11 @@ function mathFunction(){ //main function, temporary just sample
                 })
             } else{
                 button.addEventListener('click', () =>{
-                    button.style.backgroundColor = 'red';
                 })
             }
         })
     })
 }
-
 
 
 /* SAMPLE CODE
