@@ -386,6 +386,7 @@ function animate() {
 
     if (player.position.y > canvas.height) {
         init()
+
         
         
         
@@ -511,13 +512,8 @@ function mathFunction(){ //main function, temporary just sample
             } else{
                 button.addEventListener('click', () =>{
                     button.style.backgroundColor = 'red';
-                    alert("test");
                 })
             }
-        })
-
-        resultButtons.forEach((button) => { //my horrible attempt at trying to revert the buttons back to normal
-            button.style.backgroundColor = 'white'
         })
     })
 }
