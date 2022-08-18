@@ -550,14 +550,7 @@ function animate() {
 
   if (scrollOffset > platformImage.width * 5 + 300 - 2) {
     console.log('You Win');
-  } // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
-  //     prompt('hi')
-  // }
-  // if (scrollOffset == platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
-  //     console.log('It works....I hope');
-  // }
-  //lose condition
-
+  }
 
   if (player.position.y > canvas.height) {
     init();

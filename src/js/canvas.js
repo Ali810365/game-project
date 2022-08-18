@@ -142,7 +142,6 @@ const keys = {
 
 let scrollOffset = 0
 
-
 function init() {
 
 
@@ -265,7 +264,6 @@ function init() {
 
     ]
     
-
     //bookmark
     let firstSmallPlatform = platforms[0];
 
@@ -273,8 +271,6 @@ function init() {
     //console.log(firstSmallPlatform.position.x)
     //this occurs when init is called
     
-   
-
     genericObjects = [
         new GenericObject({
             x: -1,
@@ -294,9 +290,6 @@ function init() {
     //console.log(platforms[0].position)
     
 }
-
-
-
 
 
 function animate() {
@@ -352,7 +345,6 @@ function animate() {
         }
     }
 
-
     // paltform collision detection
     platforms.forEach((platform) => {
         if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y
@@ -367,8 +359,6 @@ function animate() {
             player.velocity.y = 0
         }
     })
-
-    
 
     //sprite switching
     if(keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right){
@@ -393,26 +383,7 @@ function animate() {
     if (scrollOffset > platformImage.width * 5 + 300 -2) {
         console.log('You Win');
     }
-    // if (scrollOffset > platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
-        
-    //     prompt('hi')
-   
-    // }
 
-    // if (scrollOffset == platformImage.width * 4 - 2 + platformImage.width - platformSmallTallImage.width) {
-    //     console.log('It works....I hope');
-    // }
-    
-
-    
-    
-        
-
-    
-    
-   
-
-    //lose condition
     if (player.position.y > canvas.height) {
         init()
         
@@ -422,16 +393,9 @@ function animate() {
     }
 }
 
-
-    
-
-
-
-
 init()
 
 animate()
-
 
 addEventListener('keydown', ({ keyCode }) => {
     switch (keyCode) {
