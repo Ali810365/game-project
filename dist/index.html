@@ -129,6 +129,15 @@
       font-family: 'Orbitron', sans-serif;
       font-size: 30px;
     }
+    #loading{
+      width: 1024px;
+      height: 576px;
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
     .timer{
       width: 50%;
       display: flex;
@@ -140,6 +149,49 @@
       font-size: 30px;
     }
 
+    #canvas{
+      display: none;
+    }
+
+    .instructions{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: monospace, sans-serif;
+      width: 70%;
+      height: 400px;
+      background-color: rgb(241, 239, 235);
+    }
+
+    ul{
+      width: 100%;
+      align-items: center;
+    }
+
+    ul p {
+      text-decoration: underline;
+      font-size: 20px;
+    }
+    
+    #playGame{
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 30px;
+      border: none;
+      padding: 30px;
+      width: 70%;
+      color: white;
+      background-color: rgb(21, 44, 51);
+      
+    }
+
+    #playGame:hover{
+      background-color: rgb(26, 102, 133);
+    }
+
+    
+
 
     
 
@@ -148,7 +200,36 @@
 <link rel="shortcut icon" href="favicon.ico"></head>
 
 <body>
-  <canvas></canvas>
+  
+  
+  <canvas id="canvas"></canvas>
+
+  <div class="loading" id="loading">
+    <div class="instructions">
+      <ul>
+        <p>Rules</p>
+        <li>Solve the math problems at the bottom while you move</li>
+        <li>If you don't answer before timer expires, game will reset</li>
+        <li>If you stop moving for 4 seconds game will reset</li>
+        <li style="color: red">TIP: If FPS/Animation is too fast, lower refresh rate on monitor: REC 60</li>
+
+      </ul>
+      <ul>
+        <p>Controls</p>
+        <li>A for left movement</li>
+        <li>D for right movement</li>
+        <li>W for Jump mechanics</li>
+
+      </ul>
+      
+    </div>
+
+    <button id="playGame">START GAME</button>
+    
+  </div>
+  
+
+  
 
   <div class="test">
     <div class="math-wrapper">
