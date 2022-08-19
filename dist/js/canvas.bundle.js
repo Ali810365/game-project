@@ -1318,9 +1318,17 @@ function resetTime() {
   time = 4;
 }
 
+scoreContainer.innerHTML = score;
+
+function addScore() {
+  score += 100;
+  scoreContainer.innerHTML = score;
+}
+
 resultButtons.forEach(function (button) {
   button.addEventListener('click', mathFunction);
   button.addEventListener('click', resetTime);
+  button.addEventListener('click', addScore);
 });
 /* SAMPLE CODE
 resultButtons.forEach((button) => {
