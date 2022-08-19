@@ -597,6 +597,7 @@ function mathFunction(){ //main function, temporary just sample
 }
 
 function count() {
+    
     time = 4
     let myCountDown = setInterval(() => {
         time -= 1;
@@ -612,10 +613,20 @@ count()
 function resetTime(){
     time = 4
 }
+scoreContainer.innerHTML = score
+function addScore(){
+    
+    score += 100
+    scoreContainer.innerHTML = score
+}
+
+
 
 resultButtons.forEach((button) => {
     button.addEventListener('click', mathFunction)
     button.addEventListener('click', resetTime)
+    button.addEventListener('click', addScore)
+    
 
     
 })
