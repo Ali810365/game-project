@@ -426,6 +426,7 @@ function animate() {
 
     if (player.position.y > canvas.height) {
         init()
+
         
         
         
