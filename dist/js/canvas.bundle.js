@@ -734,618 +734,671 @@ __webpack_require__.r(__webpack_exports__);
 
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
-canvas.width = 1024;
-canvas.height = 576;
-var gravity = 1.5;
 
-var Player = /*#__PURE__*/function () {
-  function Player() {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Player);
+function runGame() {
+  ///********** */
+  var questionNumbers = document.querySelectorAll('.input'); // question numbers field (blue fields)
 
-    this.speed = 10;
-    this.position = {
-      x: 100,
-      y: 100
+  var resultButtons = document.querySelectorAll('.resultBtn'); // 4 empty buttons
+
+  var scoreContainer = document.querySelector('#score');
+  var timer = document.querySelector('#timer');
+  var score = 0;
+  var time = 4;
+  var movementTimer = 4;
+
+  function mathFunction() {
+    //main function, temporary just sample
+    var promptArray = []; //empty array to hold generated math question value
+
+    var answerArray = []; //empty array to hold data for response button 
+
+    var promptNumberOne; //first value of our generated math question 
+
+    var promptNumberTwo;
+    var randomNumberOne; //3 generated incorrect numbers
+
+    var randomNumberTwo;
+    var randomNumberThree;
+    var correctNumber; //holds value to answer of the math question 
+
+    promptNumberOne = Math.ceil(Math.random() * 10); //random number generated for our math question
+
+    promptNumberTwo = Math.ceil(Math.random() * 10);
+    promptArray.splice(0, 2); //remove array data from our prevous math questions value
+
+    promptArray.push(promptNumberOne, promptNumberTwo); //push new math questions
+
+    correctNumber = promptArray[0] + promptArray[1]; //getting values of correct number
+
+    function test(correctNumber) {
+      var numberOne = Math.ceil(Math.random() * 10);
+
+      while (numberOne == correctNumber) {
+        numberOne = Math.ceil(Math.random() * 10);
+        console.log(numberOne);
+      }
+
+      return numberOne;
+    }
+
+    randomNumberOne = test(correctNumber);
+    randomNumberTwo = test(correctNumber);
+    randomNumberThree = test(correctNumber);
+    answerArray.splice(0, 4); //remove array data from our previous set of answers
+
+    answerArray.push(correctNumber, randomNumberOne, randomNumberTwo, randomNumberThree); //push new answer values
+
+    var shuffleArray = function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+
+      return array;
     };
-    this.velocity = {
-      x: 0,
-      y: 0
-    };
-    this.width = 66;
-    this.height = 150;
-    this.image = createImage(_img_SpriteStandRight_png__WEBPACK_IMPORTED_MODULE_11__["default"]);
-    this.frames = 0;
-    this.sprites = {
-      stand: {
-        right: createImage(_img_SpriteStandRight_png__WEBPACK_IMPORTED_MODULE_11__["default"]),
-        left: createImage(_img_SpriteStandLeft_png__WEBPACK_IMPORTED_MODULE_10__["default"]),
-        cropWidth: 177,
-        width: 66
-      },
-      run: {
-        right: createImage(_img_spriteRunRight_png__WEBPACK_IMPORTED_MODULE_9__["default"]),
-        left: createImage(_img_spriteRunLeft_png__WEBPACK_IMPORTED_MODULE_8__["default"]),
-        cropWidth: 341,
-        width: 127.875
+
+    shuffleArray(answerArray);
+
+    for (var i = 0; i < answerArray.length; i++) {
+      //display the questions in html document, pulling from questions array
+      resultButtons[i].innerHTML = answerArray[i];
+    }
+
+    for (var _i = 0; _i < promptArray.length; _i++) {
+      //display the answers in html document, pulling from answers array
+      questionNumbers[_i].innerHTML = promptArray[_i];
+    }
+    /*
+            resultButtons.forEach((button) => { //style the button when correct answer is chosen
+                if(parseInt(button.innerHTML) ==  (promptNumberOne + promptNumberTwo)){
+                    button.addEventListener('click', () =>{
+                        button.style.backgroundColor = 'green'
+                        
+                        console.log(score)
+                        
+                    })
+                } else{
+                    button.addEventListener('click', () =>{
+                        button.style.backgroundColor = 'red'
+                    })
+                }
+            })
+        */
+
+
+    var _loop = function _loop(_i2) {
+      if (parseInt(resultButtons[_i2].innerHTML) == promptNumberOne + promptNumberTwo) {
+        resultButtons[_i2].addEventListener('click', function () {
+          resultButtons[_i2].style.backgroundColor = 'green';
+        });
+      } else {
+        resultButtons[_i2].addEventListener('click', function () {
+          resultButtons[_i2].style.backgroundColor = 'red';
+        });
       }
     };
-    this.currentSprite = this.sprites.stand.right;
-    this.currentCropWidth = 177;
+
+    for (var _i2 = 0; _i2 < resultButtons.length; _i2++) {
+      _loop(_i2);
+    }
+
+    resultButtons.forEach(function (button) {
+      //my horrible attempt at trying to revert the buttons back to normal
+      button.style.backgroundColor = 'white';
+    });
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Player, [{
-    key: "draw",
-    value: function draw() {
-      c.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0, this.currentCropWidth, 400, this.position.x, this.position.y, this.width, this.height);
-    }
-  }, {
-    key: "update",
-    value: function update() {
-      this.frames++;
-      if (this.frames > 59 && (this.currentSprite === this.sprites.stand.right || this.currentSprite === this.sprites.stand.left)) this.frames = 0;else if (this.frames > 29 && (this.currentSprite === this.sprites.run.right || this.currentSprite === this.sprites.run.left)) this.frames = 0;
-      this.draw();
-      this.position.x += this.velocity.x;
-      this.position.y += this.velocity.y;
+  function questionValues() {
+    var sum;
 
-      if (this.position.y + this.height + this.velocity.y <= canvas.height) {
-        this.velocity.y += gravity;
+    for (var i = 0; i < questionNumbers.length; i++) {
+      sum = parseInt(questionNumbers[0].innerHTML) + parseInt(questionNumbers[1].innerHTML);
+    }
+
+    return sum;
+  }
+
+  function resetTime() {
+    time = 4;
+  }
+
+  function resetScore() {
+    score = 0;
+    scoreContainer.innerHTML = score;
+  }
+
+  function count() {
+    time = 4;
+    var myCountDown = setInterval(function () {
+      time -= 1;
+
+      if (time <= 0) {
+        resetTime();
+        resetScore();
+        init();
+        resetCheckMovement();
       }
-    }
-  }]);
 
-  return Player;
-}();
-
-var Platform = /*#__PURE__*/function () {
-  function Platform(_ref) {
-    var x = _ref.x,
-        y = _ref.y,
-        image = _ref.image;
-
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Platform);
-
-    this.position = {
-      x: x,
-      y: y
-    };
-    this.image = image;
-    this.width = image.width;
-    this.height = image.height;
+      timer.innerHTML = time;
+    }, 1000);
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Platform, [{
-    key: "draw",
-    value: function draw() {
-      c.drawImage(this.image, this.position.x, this.position.y);
-    }
-  }]);
+  count();
+  scoreContainer.innerHTML = score;
 
-  return Platform;
-}();
-
-var GenericObject = /*#__PURE__*/function () {
-  function GenericObject(_ref2) {
-    var x = _ref2.x,
-        y = _ref2.y,
-        image = _ref2.image;
-
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, GenericObject);
-
-    this.position = {
-      x: x,
-      y: y
-    };
-    this.image = image;
-    this.width = image.width;
-    this.height = image.height;
-  }
-
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(GenericObject, [{
-    key: "draw",
-    value: function draw() {
-      c.drawImage(this.image, this.position.x, this.position.y);
-    }
-  }]);
-
-  return GenericObject;
-}();
-
-function createImage(imageSrc) {
-  var image = new Image();
-  image.src = imageSrc;
-  return image;
-}
-
-function createImageAsync(imageSrc) {
-  return new Promise(function (resolve) {
-    var image = new Image();
-
-    image.onload = function () {
-      resolve(image);
-    };
-
-    image.src = imageSrc;
-  });
-}
-
-var platformImage;
-var platformSmallTallImage;
-var player = new Player();
-var platforms = [];
-var sexyPlatforms = [];
-var genericObjects = [];
-var lastKey;
-var keys = {
-  right: {
-    pressed: false
-  },
-  left: {
-    pressed: false
-  }
-};
-var scrollOffset = 0;
-
-function init() {
-  return _init.apply(this, arguments);
-}
-
-function _init() {
-  _init = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default.a.mark(function _callee() {
-    var firstSmallPlatform;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return createImageAsync(_img_platform_png__WEBPACK_IMPORTED_MODULE_4__["default"]);
-
-          case 2:
-            platformImage = _context.sent;
-            _context.next = 5;
-            return createImageAsync(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"]);
-
-          case 5:
-            platformSmallTallImage = _context.sent;
-            player = new Player();
-            platforms = [//Tall small platforms
-            new Platform({
-              x: platformImage.width * 4 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 270,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 7 + 600 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 270,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 8 + 700 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 270,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 12 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 270,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 13 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 270,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 14 + 400 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 350,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 15 + 500 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 270,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 19 + 550 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 150,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 20 + 250 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 500,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), new Platform({
-              x: platformImage.width * 20 + 150 - 2 + platformImage.width - platformSmallTallImage.width,
-              y: 376,
-              image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
-            }), //longer/slim platform
-            new Platform({
-              x: -1,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width - 3,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 2 + 300,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 3 + 500,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 4 + 300 - 2,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 5 + 800 - 2,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 7 + 600 - 2,
-              y: 370,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 9 + 900 - 2,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 11 + 500 - 2,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 17 + 400,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 18 + 400 - 2,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 18 + 400 - 2,
-              y: 346,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 18 + 400 - 2,
-              y: 224,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 21 + 700 - 2,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 22 + 700 - 4,
-              y: 470,
-              image: platformImage
-            }), new Platform({
-              x: platformImage.width * 23 + 700 - 6,
-              y: 470,
-              image: platformImage
-            })]; //bookmark
-
-            firstSmallPlatform = platforms[0]; //document!!!!!!
-            //console.log(firstSmallPlatform.position.x)
-            //this occurs when init is called
-
-            genericObjects = [new GenericObject({
-              x: -1,
-              y: -1,
-              image: createImage(_img_background_png__WEBPACK_IMPORTED_MODULE_6__["default"])
-            }), new GenericObject({
-              x: -1,
-              y: -1,
-              image: createImage(_img_hills_png__WEBPACK_IMPORTED_MODULE_5__["default"])
-            })];
-            scrollOffset = 0; //console.log(platforms[0].position)
-
-          case 11:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _init.apply(this, arguments);
-}
-
-function animate() {
-  requestAnimationFrame(animate);
-  c.fillStyle = 'White';
-  c.fillRect(0, 0, canvas.width, canvas.height);
-  genericObjects.forEach(function (genericObjects) {
-    genericObjects.draw();
-  });
-  sexyPlatforms.forEach(function (newPlatform) {
-    newPlatform.draw();
-  });
-  platforms.forEach(function (platform) {
-    platform.draw();
-  });
-  player.update();
-
-  if (keys.right.pressed && player.position.x < 400) {
-    player.velocity.x = player.speed;
-  } else if (keys.left.pressed && player.position.x > 100 || keys.left.pressed && scrollOffset === 0 && player.position.x > 0) {
-    player.velocity.x = -player.speed;
-  } else {
-    player.velocity.x = 0;
-
-    if (keys.right.pressed) {
-      scrollOffset += player.speed;
-      platforms.forEach(function (platform) {
-        platform.position.x -= player.speed;
-      });
-      sexyPlatforms.forEach(function (platform) {
-        platform.position.x -= player.speed;
-      });
-      genericObjects.forEach(function (genericObject) {
-        genericObject.position.x -= player.speed * .66;
-      });
-    } else if (keys.left.pressed && scrollOffset > 0) {
-      scrollOffset -= player.speed;
-      platforms.forEach(function (platform) {
-        platform.position.x += player.speed;
-      });
-      sexyPlatforms.forEach(function (platform) {
-        platform.position.x += player.speed;
-      });
-      genericObjects.forEach(function (genericObject) {
-        genericObject.position.x += player.speed * .66;
-      });
-    }
-  } // paltform collision detection
-
-
-  platforms.forEach(function (platform) {
-    if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
-      player.velocity.y = 0;
-    }
-  });
-  sexyPlatforms.forEach(function (platform) {
-    if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
-      player.velocity.y = 0;
-    }
-  }); //sprite switching
-
-  if (keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right) {
-    player.frames = 1;
-    player.currentSprite = player.sprites.run.right;
-    player.currentCropWidth = player.sprites.run.cropWidth;
-    player.width = player.sprites.run.width;
-  } else if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
-    player.currentSprite = player.sprites.run.left;
-    player.currentCropWidth = player.sprites.run.cropWidth;
-    player.width = player.sprites.run.width;
-  } else if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
-    player.currentSprite = player.sprites.stand.left;
-    player.currentCropWidth = player.sprites.stand.cropWidth;
-    player.width = player.sprites.stand.width;
-  } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
-    player.currentSprite = player.sprites.stand.right;
-    player.currentCropWidth = player.sprites.stand.cropWidth;
-    player.width = player.sprites.stand.width;
-  } // win condition
-
-
-  if (platformImage && scrollOffset > platformImage.width * 5 + 300 - 2) {}
-
-  if (player.position.y > canvas.height) {
-    init();
-  }
-}
-
-init();
-animate();
-addEventListener('keydown', function (_ref3) {
-  var keyCode = _ref3.keyCode;
-
-  switch (keyCode) {
-    case 65:
-      //left
-      keys.left.pressed = true;
-      lastKey = 'left';
-      break;
-
-    case 83:
-      console.log('down');
-      break;
-
-    case 68:
-      //right
-      keys.right.pressed = true;
-      lastKey = 'right';
-      break;
-
-    case 87:
-      console.log('up');
-      player.velocity.y -= 30;
-      break;
-  }
-});
-addEventListener('keyup', function (_ref4) {
-  var keyCode = _ref4.keyCode;
-
-  switch (keyCode) {
-    case 65:
-      console.log('left');
-      keys.left.pressed = false;
-      break;
-
-    case 83:
-      console.log('down');
-      break;
-
-    case 68:
-      //right
-      keys.right.pressed = false;
-      break;
-
-    case 87:
-      console.log('up');
-      break;
-  }
-}); //bookmark
-
-/*****TO DO LIST
- * need to shuffle order of answers / try shuffling the array that holds answer values
- * need scoreboard, counter, timer
- * css and styling 
- * prompt the player to lose when wrong answer is chosen //reset
- * need to include substraction, multiplication, division promotes
- *  */
-
-var questionNumbers = document.querySelectorAll('.input'); // question numbers field (blue fields)
-
-var resultButtons = document.querySelectorAll('.resultBtn'); // 4 empty buttons
-
-var scoreContainer = document.querySelector('#score');
-var timer = document.querySelector('#timer');
-var score = 0;
-var time;
-
-function mathFunction() {
-  //main function, temporary just sample
-  var promptArray = []; //empty array to hold generated math question value
-
-  var answerArray = []; //empty array to hold data for response button 
-
-  var promptNumberOne; //first value of our generated math question 
-
-  var promptNumberTwo;
-  var randomNumberOne; //3 generated incorrect numbers
-
-  var randomNumberTwo;
-  var randomNumberThree;
-  var correctNumber; //holds value to answer of the math question 
-
-  promptNumberOne = Math.ceil(Math.random() * 10); //random number generated for our math question
-
-  promptNumberTwo = Math.ceil(Math.random() * 10);
-  promptArray.splice(0, 2); //remove array data from our prevous math questions value
-
-  promptArray.push(promptNumberOne, promptNumberTwo); //push new math questions
-
-  correctNumber = promptArray[0] + promptArray[1]; //getting values of correct number
-
-  function test(correctNumber) {
-    var numberOne = Math.ceil(Math.random() * 10);
-
-    while (numberOne == correctNumber) {
-      numberOne = Math.ceil(Math.random() * 10);
-      console.log(numberOne);
-    }
-
-    return numberOne;
-  }
-
-  randomNumberOne = test(correctNumber);
-  randomNumberTwo = test(correctNumber);
-  randomNumberThree = test(correctNumber);
-  answerArray.splice(0, 4); //remove array data from our previous set of answers
-
-  answerArray.push(correctNumber, randomNumberOne, randomNumberTwo, randomNumberThree); //push new answer values
-
-  var shuffleArray = function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-
-    return array;
-  };
-
-  shuffleArray(answerArray);
-
-  for (var i = 0; i < answerArray.length; i++) {
-    //display the questions in html document, pulling from questions array
-    resultButtons[i].innerHTML = answerArray[i];
-  }
-
-  for (var _i = 0; _i < promptArray.length; _i++) {
-    //display the answers in html document, pulling from answers array
-    questionNumbers[_i].innerHTML = promptArray[_i];
-  }
-  /*
-          resultButtons.forEach((button) => { //style the button when correct answer is chosen
-              if(parseInt(button.innerHTML) ==  (promptNumberOne + promptNumberTwo)){
-                  button.addEventListener('click', () =>{
-                      button.style.backgroundColor = 'green'
-                      
-                      console.log(score)
-                      
-                  })
-              } else{
-                  button.addEventListener('click', () =>{
-                      button.style.backgroundColor = 'red'
-                  })
-              }
-          })
-      */
-
-
-  var _loop = function _loop(_i2) {
-    if (parseInt(resultButtons[_i2].innerHTML) == promptNumberOne + promptNumberTwo) {
-      resultButtons[_i2].addEventListener('click', function () {
-        resultButtons[_i2].style.backgroundColor = 'green';
-      });
-    } else {
-      resultButtons[_i2].addEventListener('click', function () {
-        resultButtons[_i2].style.backgroundColor = 'red';
-      });
-    }
-  };
-
-  for (var _i2 = 0; _i2 < resultButtons.length; _i2++) {
-    _loop(_i2);
+  function addScore() {
+    score += 100;
+    scoreContainer.innerHTML = score;
   }
 
   resultButtons.forEach(function (button) {
-    //my horrible attempt at trying to revert the buttons back to normal
-    button.style.backgroundColor = 'white';
+    button.addEventListener('click', mathFunction);
+    button.addEventListener('click', resetTime);
+    button.addEventListener('click', addScore);
   });
-}
+  /* SAMPLE CODE
+  resultButtons.forEach((button) => {
+      console.log(button.value)
+  })
+  
+  resultButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+          if(parseInt(inputOne.innerHTML) + parseInt(inputTwo.innerHTML) !== parseInt(button.innerHTML)){
+              init()
+          }
+      })
+  })
+  
+  */
 
-function count() {
-  time = 4;
-  var myCountDown = setInterval(function () {
-    time -= 1;
+  mathFunction(); ////******* */
 
-    if (time < 0) {
-      time = 0;
+  canvas.width = 1024;
+  canvas.height = 576;
+  var gravity = 1.5;
+
+  var Player = /*#__PURE__*/function () {
+    function Player() {
+      _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Player);
+
+      this.speed = 10;
+      this.position = {
+        x: 100,
+        y: 100
+      };
+      this.velocity = {
+        x: 0,
+        y: 0
+      };
+      this.width = 66;
+      this.height = 150;
+      this.image = createImage(_img_SpriteStandRight_png__WEBPACK_IMPORTED_MODULE_11__["default"]);
+      this.frames = 0;
+      this.sprites = {
+        stand: {
+          right: createImage(_img_SpriteStandRight_png__WEBPACK_IMPORTED_MODULE_11__["default"]),
+          left: createImage(_img_SpriteStandLeft_png__WEBPACK_IMPORTED_MODULE_10__["default"]),
+          cropWidth: 177,
+          width: 66
+        },
+        run: {
+          right: createImage(_img_spriteRunRight_png__WEBPACK_IMPORTED_MODULE_9__["default"]),
+          left: createImage(_img_spriteRunLeft_png__WEBPACK_IMPORTED_MODULE_8__["default"]),
+          cropWidth: 341,
+          width: 127.875
+        }
+      };
+      this.currentSprite = this.sprites.stand.right;
+      this.currentCropWidth = 177;
     }
 
-    timer.innerHTML = time;
-  }, 1000);
-}
+    _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Player, [{
+      key: "draw",
+      value: function draw() {
+        c.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0, this.currentCropWidth, 400, this.position.x, this.position.y, this.width, this.height);
+      }
+    }, {
+      key: "update",
+      value: function update() {
+        this.frames++;
+        if (this.frames > 59 && (this.currentSprite === this.sprites.stand.right || this.currentSprite === this.sprites.stand.left)) this.frames = 0;else if (this.frames > 29 && (this.currentSprite === this.sprites.run.right || this.currentSprite === this.sprites.run.left)) this.frames = 0;
+        this.draw();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
 
-count();
-
-function resetTime() {
-  time = 4;
-}
-
-scoreContainer.innerHTML = score;
-
-function addScore() {
-  score += 100;
-  scoreContainer.innerHTML = score;
-}
-
-resultButtons.forEach(function (button) {
-  button.addEventListener('click', mathFunction);
-  button.addEventListener('click', resetTime);
-  button.addEventListener('click', addScore);
-});
-/* SAMPLE CODE
-resultButtons.forEach((button) => {
-    console.log(button.value)
-})
-
-resultButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        if(parseInt(inputOne.innerHTML) + parseInt(inputTwo.innerHTML) !== parseInt(button.innerHTML)){
-            init()
+        if (this.position.y + this.height + this.velocity.y <= canvas.height) {
+          this.velocity.y += gravity;
         }
-    })
-})
+      }
+    }]);
 
-*/
+    return Player;
+  }();
 
-mathFunction();
+  var Platform = /*#__PURE__*/function () {
+    function Platform(_ref) {
+      var x = _ref.x,
+          y = _ref.y,
+          image = _ref.image;
+
+      _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Platform);
+
+      this.position = {
+        x: x,
+        y: y
+      };
+      this.image = image;
+      this.width = image.width;
+      this.height = image.height;
+    }
+
+    _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Platform, [{
+      key: "draw",
+      value: function draw() {
+        c.drawImage(this.image, this.position.x, this.position.y);
+      }
+    }]);
+
+    return Platform;
+  }();
+
+  var GenericObject = /*#__PURE__*/function () {
+    function GenericObject(_ref2) {
+      var x = _ref2.x,
+          y = _ref2.y,
+          image = _ref2.image;
+
+      _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, GenericObject);
+
+      this.position = {
+        x: x,
+        y: y
+      };
+      this.image = image;
+      this.width = image.width;
+      this.height = image.height;
+    }
+
+    _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(GenericObject, [{
+      key: "draw",
+      value: function draw() {
+        c.drawImage(this.image, this.position.x, this.position.y);
+      }
+    }]);
+
+    return GenericObject;
+  }();
+
+  function createImage(imageSrc) {
+    var image = new Image();
+    image.src = imageSrc;
+    return image;
+  }
+
+  function createImageAsync(imageSrc) {
+    return new Promise(function (resolve) {
+      var image = new Image();
+
+      image.onload = function () {
+        resolve(image);
+      };
+
+      image.src = imageSrc;
+    });
+  }
+
+  var platformImage;
+  var platformSmallTallImage;
+  var player = new Player();
+  var platforms = [];
+  var sexyPlatforms = [];
+  var genericObjects = [];
+  var lastKey;
+  var keys = {
+    right: {
+      pressed: false
+    },
+    left: {
+      pressed: false
+    }
+  };
+  var scrollOffset = 0;
+
+  function init() {
+    return _init.apply(this, arguments);
+  }
+
+  function _init() {
+    _init = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default.a.mark(function _callee() {
+      var firstSmallPlatform;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return createImageAsync(_img_platform_png__WEBPACK_IMPORTED_MODULE_4__["default"]);
+
+            case 2:
+              platformImage = _context.sent;
+              _context.next = 5;
+              return createImageAsync(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"]);
+
+            case 5:
+              platformSmallTallImage = _context.sent;
+              player = new Player();
+              platforms = [//Tall small platforms
+              new Platform({
+                x: platformImage.width * 4 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 270,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 7 + 600 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 270,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 8 + 700 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 270,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 12 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 270,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 13 + 300 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 270,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 14 + 400 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 350,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 15 + 500 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 270,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 19 + 550 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 150,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 20 + 250 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 500,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), new Platform({
+                x: platformImage.width * 20 + 150 - 2 + platformImage.width - platformSmallTallImage.width,
+                y: 376,
+                image: createImage(_img_platformSmallTall_png__WEBPACK_IMPORTED_MODULE_7__["default"])
+              }), //longer/slim platform
+              new Platform({
+                x: -1,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width - 3,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 2 + 300,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 3 + 500,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 4 + 300 - 2,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 5 + 800 - 2,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 7 + 600 - 2,
+                y: 370,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 9 + 900 - 2,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 11 + 500 - 2,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 17 + 400,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 18 + 400 - 2,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 18 + 400 - 2,
+                y: 346,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 18 + 400 - 2,
+                y: 224,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 21 + 700 - 2,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 22 + 700 - 4,
+                y: 470,
+                image: platformImage
+              }), new Platform({
+                x: platformImage.width * 23 + 700 - 6,
+                y: 470,
+                image: platformImage
+              })]; //bookmark
+
+              firstSmallPlatform = platforms[0]; //document!!!!!!
+              //console.log(firstSmallPlatform.position.x)
+              //this occurs when init is called
+
+              genericObjects = [new GenericObject({
+                x: -1,
+                y: -1,
+                image: createImage(_img_background_png__WEBPACK_IMPORTED_MODULE_6__["default"])
+              }), new GenericObject({
+                x: -1,
+                y: -1,
+                image: createImage(_img_hills_png__WEBPACK_IMPORTED_MODULE_5__["default"])
+              })];
+              scrollOffset = 0; //console.log(platforms[0].position)
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+    return _init.apply(this, arguments);
+  }
+
+  function resetCheckMovement() {
+    movementTimer = 4;
+  }
+
+  function checkMovement() {
+    movementTimer = 4;
+    var myCountDown = setInterval(function () {
+      if (!keys.right.pressed && !keys.left.pressed) {
+        movementTimer -= 1;
+        console.log(movementTimer);
+      }
+
+      if (movementTimer < 0) {
+        resetCheckMovement();
+        resetTime();
+        resetScore();
+        init();
+      }
+    }, 1000);
+  }
+
+  checkMovement();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    c.fillStyle = 'White';
+    c.fillRect(0, 0, canvas.width, canvas.height);
+    genericObjects.forEach(function (genericObjects) {
+      genericObjects.draw();
+    });
+    sexyPlatforms.forEach(function (newPlatform) {
+      newPlatform.draw();
+    });
+    platforms.forEach(function (platform) {
+      platform.draw();
+    });
+    player.update();
+
+    if (keys.right.pressed && player.position.x < 400) {
+      player.velocity.x = player.speed;
+    } else if (keys.left.pressed && player.position.x > 100 || keys.left.pressed && scrollOffset === 0 && player.position.x > 0) {
+      player.velocity.x = -player.speed;
+    } else {
+      player.velocity.x = 0;
+
+      if (keys.right.pressed) {
+        scrollOffset += player.speed;
+        platforms.forEach(function (platform) {
+          platform.position.x -= player.speed;
+        });
+        sexyPlatforms.forEach(function (platform) {
+          platform.position.x -= player.speed;
+        });
+        genericObjects.forEach(function (genericObject) {
+          genericObject.position.x -= player.speed * .66;
+        });
+      } else if (keys.left.pressed && scrollOffset > 0) {
+        scrollOffset -= player.speed;
+        platforms.forEach(function (platform) {
+          platform.position.x += player.speed;
+        });
+        sexyPlatforms.forEach(function (platform) {
+          platform.position.x += player.speed;
+        });
+        genericObjects.forEach(function (genericObject) {
+          genericObject.position.x += player.speed * .66;
+        });
+      }
+    } // paltform collision detection
+
+
+    platforms.forEach(function (platform) {
+      if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
+        player.velocity.y = 0;
+      }
+    });
+    sexyPlatforms.forEach(function (platform) {
+      if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
+        player.velocity.y = 0;
+      }
+    }); //sprite switching
+
+    if (keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right) {
+      player.frames = 1;
+      player.currentSprite = player.sprites.run.right;
+      player.currentCropWidth = player.sprites.run.cropWidth;
+      player.width = player.sprites.run.width;
+    } else if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
+      player.currentSprite = player.sprites.run.left;
+      player.currentCropWidth = player.sprites.run.cropWidth;
+      player.width = player.sprites.run.width;
+    } else if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
+      player.currentSprite = player.sprites.stand.left;
+      player.currentCropWidth = player.sprites.stand.cropWidth;
+      player.width = player.sprites.stand.width;
+    } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
+      player.currentSprite = player.sprites.stand.right;
+      player.currentCropWidth = player.sprites.stand.cropWidth;
+      player.width = player.sprites.stand.width;
+    } // win condition
+
+
+    if (platformImage && scrollOffset > platformImage.width * 5 + 300 - 2) {}
+
+    if (player.position.y > canvas.height) {
+      resetScore();
+      resetTime();
+      init();
+    }
+  }
+
+  init();
+  animate();
+  addEventListener('keydown', function (_ref3) {
+    var keyCode = _ref3.keyCode;
+
+    switch (keyCode) {
+      case 65:
+        //left
+        keys.left.pressed = true;
+        lastKey = 'left';
+        break;
+
+      case 83:
+        //console.log('down')
+        break;
+
+      case 68:
+        //right
+        keys.right.pressed = true;
+        lastKey = 'right';
+        break;
+
+      case 87:
+        //console.log('up')
+        player.velocity.y -= 30;
+        break;
+    }
+  });
+  addEventListener('keyup', function (_ref4) {
+    var keyCode = _ref4.keyCode;
+
+    switch (keyCode) {
+      case 65:
+        //console.log('left')
+        keys.left.pressed = false;
+        break;
+
+      case 83:
+        //console.log('down')
+        break;
+
+      case 68:
+        //right
+        keys.right.pressed = false;
+        break;
+
+      case 87:
+        //console.log('up')
+        break;
+    }
+  }); //bookmark
+
+  /*****TO DO LIST
+   * need to shuffle order of answers / try shuffling the array that holds answer values
+   * need scoreboard, counter, timer
+   * css and styling 
+   * prompt the player to lose when wrong answer is chosen //reset
+   * need to include substraction, multiplication, division promotes
+   *  */
+}
+
+document.getElementById('playGame').addEventListener('click', function () {
+  document.getElementById('canvas').style.display = 'block';
+  document.getElementById('loading').style.display = 'none';
+  runGame();
+});
 
 /***/ })
 
