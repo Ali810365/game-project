@@ -489,11 +489,16 @@ addEventListener('keyup', ({ keyCode }) => {
  *  */ 
 let questionNumbers = document.querySelectorAll('.input') // question numbers field (blue fields)
 let resultButtons = document.querySelectorAll('.resultBtn'); // 4 empty buttons
+let scoreContainer = document.querySelector('#score');
+let timer = document.querySelector('#timer')
 
-
+let score = 0
+let time
 function mathFunction(){ //main function, temporary just sample
+    
     let promptArray = [] //empty array to hold generated math question value
     let answerArray = [] //empty array to hold data for response button 
+    
 
     let promptNumberOne //first value of our generated math question 
     let promptNumberTwo 
@@ -504,47 +509,118 @@ function mathFunction(){ //main function, temporary just sample
     let randomNumberThree
     let correctNumber //holds value to answer of the math question 
 
-    document.getElementById('testing').addEventListener('click', () => {
-        promptNumberOne = Math.ceil(Math.random() * 10) //random number generated for our math question
-        promptNumberTwo = Math.ceil(Math.random() * 10)
-        promptArray.splice(0, 2) //remove array data from our prevous math questions value
-        promptArray.push(promptNumberOne, promptNumberTwo) //push new math questions
-
-        correctNumber = promptArray[0] + promptArray[1] //getting values of correct number
-        randomNumberOne = Math.ceil(Math.random() * 10)
-        randomNumberTwo = Math.ceil(Math.random() * 10)
-        randomNumberThree = Math.ceil(Math.random() * 10)
-        answerArray.splice(0, 4) //remove array data from our previous set of answers
-        answerArray.push(correctNumber, randomNumberOne, randomNumberTwo, randomNumberThree) //push new answer values
-        
-        for(let i = 0; i < answerArray.length; i++){ //display the questions in html document, pulling from questions array
-            resultButtons[i].innerHTML = answerArray[i]
+    promptNumberOne = Math.ceil(Math.random() * 10) //random number generated for our math question
+            promptNumberTwo = Math.ceil(Math.random() * 10)
+            promptArray.splice(0, 2) //remove array data from our prevous math questions value
+            promptArray.push(promptNumberOne, promptNumberTwo) //push new math questions
+    
+            correctNumber = promptArray[0] + promptArray[1] //getting values of correct number
+            function test(correctNumber) {
+                let numberOne = Math.ceil(Math.random() * 10)
+                while( numberOne == correctNumber){
+                    numberOne = Math.ceil(Math.random() * 10)
+                    console.log(numberOne)
+                }
+                
+                return numberOne
+            }
+            
+            
+            
+            
+            
+            randomNumberOne = test(correctNumber)
+            randomNumberTwo = test(correctNumber)
+            randomNumberThree = test(correctNumber)
+            answerArray.splice(0, 4) //remove array data from our previous set of answers
+            answerArray.push(correctNumber, randomNumberOne, randomNumberTwo, randomNumberThree) //push new answer values
+    
+            let shuffleArray = array => {
+                for(let i = array.length -1; i > 0; i--){
+                    let j = Math.floor(Math.random() * (i + 1))
+                    let temp = array[i]
+                    array[i] = array[j];
+                    array[j] = temp
+                }
+                return array
+            }
+            shuffleArray(answerArray)
+            
+            for(let i = 0; i < answerArray.length; i++){ //display the questions in html document, pulling from questions array
+                resultButtons[i].innerHTML = answerArray[i]
+    
+                
+            }
+    
+    
+            for(let i = 0; i < promptArray.length; i++){ //display the answers in html document, pulling from answers array
+                questionNumbers[i].innerHTML = promptArray[i]
+            }
+    /*
+            resultButtons.forEach((button) => { //style the button when correct answer is chosen
+                if(parseInt(button.innerHTML) ==  (promptNumberOne + promptNumberTwo)){
+                    button.addEventListener('click', () =>{
+                        button.style.backgroundColor = 'green'
+                        
+                        console.log(score)
+                        
+                    })
+                } else{
+                    button.addEventListener('click', () =>{
+                        button.style.backgroundColor = 'red'
+                    })
+                }
+            })
+        */
+            for(let i = 0; i < resultButtons.length; i++){
+                if(parseInt(resultButtons[i].innerHTML) ==  (promptNumberOne + promptNumberTwo)){
+                    resultButtons[i].addEventListener('click', () => {
+                        resultButtons[i].style.backgroundColor = 'green'
+                    })
+                    
+                } else{
+                    resultButtons[i].addEventListener('click', () => {
+                        resultButtons[i].style.backgroundColor = 'red'
+                    })
+                }
+                
+            }
+    
+            resultButtons.forEach((button) => { //my horrible attempt at trying to revert the buttons back to normal
+                button.style.backgroundColor = 'white'
+            })
+            
 
             
-        }
-
-
-        for(let i = 0; i < promptArray.length; i++){ //display the answers in html document, pulling from answers array
-            questionNumbers[i].innerHTML = promptArray[i]
-        }
-
-        resultButtons.forEach((button) => { //style the button when correct answer is chosen
-            if(parseInt(button.innerHTML) ==  (promptNumberOne + promptNumberTwo)){
-                button.addEventListener('click', () =>{
-                    button.style.backgroundColor = 'green'
-                })
-            } else{
-                button.addEventListener('click', () =>{
-                    button.style.backgroundColor = 'red'
-                })
-            }
-        })
-
-        resultButtons.forEach((button) => { //my horrible attempt at trying to revert the buttons back to normal
-            button.style.backgroundColor = 'white'
-        })
-    })
+    
+    
 }
+
+function count() {
+    time = 4
+    let myCountDown = setInterval(() => {
+        time -= 1;
+        if(time < 0){
+            time = 0
+            
+        }
+        
+        timer.innerHTML = time;
+    }, 1000)
+}
+count()
+function resetTime(){
+    time = 4
+}
+
+resultButtons.forEach((button) => {
+    button.addEventListener('click', mathFunction)
+    button.addEventListener('click', resetTime)
+
+    
+})
+
+
 
 
 /* SAMPLE CODE

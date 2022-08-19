@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Canvas Boilerplate | Chris Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -26,9 +29,11 @@
     }
 
     .math-wrapper{
-      width: 60%;
+      width: 80%;
       display: flex;
       justify-content: space-between;
+      font-size: 20px;
+      font-family: monospace;
       
     }
 
@@ -36,8 +41,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100%;
-      
+      width: 40%;
     }
 
     .input {
@@ -80,6 +84,7 @@
       flex-wrap: wrap;
       justify-content: flex-start;
       margin-left: 5px;
+
       
     }
 
@@ -87,7 +92,56 @@
       width: 100%;
       height: inherit;
       cursor: pointer;
+      border: 1px solid black;
+      outline: none;
+      font-size: 20px;
     }
+
+    .score-board{
+      width: 50%;
+      display: flex;
+    }
+
+    .score-wrapper{
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .timer-wrapper{
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .score{
+      width: 80%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: whitesmoke;
+      height: 40px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 30px;
+    }
+    .timer{
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: whitesmoke;
+      height: 40px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 30px;
+    }
+
+
+    
 
 
   </style>
@@ -112,8 +166,9 @@
         <div class="operator">
           =
         </div>
-
-        <div class="result-wrapper">
+      
+      </div>
+      <div class="result-wrapper">
         <div class="result">
             <button id="resultOne" class="resultBtn"></button>
         </div>
@@ -128,11 +183,23 @@
       </div>
       </div>
 
-      
+      <div class="score-board">
+        <div class="score-wrapper">
+          Score
+          <div class="score" id="score">
+            
+          </div>
+        </div>
+        <div class="timer-wrapper">
+          Timer
+          <div class="timer" id="timer">
+
+          </div>
+        </div>
       </div>
       
     </div>
-    <button id="testing">Test Generate</button>
+    
   </div>
 </body>
 
